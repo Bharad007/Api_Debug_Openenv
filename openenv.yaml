@@ -1,0 +1,12 @@
+name: api-debug-openenv
+version: "1.0"
+
+entrypoint: environment:ApiDebugEnv
+
+observation_model: ApiObservation
+action_model: ApiAction
+
+tasks:
+  - easy_auth
+  - medium_rate_limit
+  - hard_schema
