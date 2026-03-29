@@ -1,9 +1,12 @@
 from fastapi import FastAPI
 from environment import ApiDebugEnv
 from models import ApiAction
+from typing import Optional
 
 app = FastAPI()
 env = ApiDebugEnv()
+
+DEFAULT_TASK_ID = "easy_auth"  # Default task if none provided
 
 @app.post("/reset")
 def reset(task_id: Optional[str] = None):
