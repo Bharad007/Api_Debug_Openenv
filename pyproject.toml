@@ -19,3 +19,7 @@ dependencies = [
 
 [project.scripts]
 openenv-server = "api_debug_openenv.server.app:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["api_debug_openenv*"]
