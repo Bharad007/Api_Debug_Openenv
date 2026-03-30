@@ -1,4 +1,10 @@
 from typing import Optional
+import sys
+import os
+
+# Ensure repo root is on Python path
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+
 import uvicorn
 from fastapi import FastAPI
 
@@ -34,7 +40,7 @@ def state():
 
 def main():
     uvicorn.run(
-        "server.app:app",
+        app,  # ✅ pass the object, not a string path
         host="0.0.0.0",
         port=7860,
         reload=False,
