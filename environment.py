@@ -18,7 +18,11 @@ class ApiDebugEnv:
         return self._state
     
     def step(self, action: ApiAction):
-        result = self.task_fn(self._state, action)
+        # ✅ Defensive: auto-reset if step is called first
+        if not hasattr(self, "task_fn") or self._state is None:
+            self.reset("easy_auth")
+
+        result = self.task_f    n(self._state, action)
 
         reward = compute_reward(result, action)
         done = result["success"]
@@ -27,9 +31,9 @@ class ApiDebugEnv:
             message = "API call successful"
         else:
             message = f"Error: {result['error']}"
-    
+
         self._state = ApiObservation(
-            task_id=self._state.task_id, 
+            task_id=self.task_id,
             message=message,
             last_action=action.action
         )
