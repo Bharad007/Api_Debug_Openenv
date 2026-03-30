@@ -22,7 +22,7 @@ class ApiDebugEnv:
         if not hasattr(self, "task_fn") or self._state is None:
             self.reset("easy_auth")
 
-        result = self.task_f    n(self._state, action)
+        result = self.task_fn(self._state, action)
 
         reward = compute_reward(result, action)
         done = result["success"]
