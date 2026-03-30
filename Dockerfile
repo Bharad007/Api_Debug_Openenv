@@ -4,12 +4,9 @@ WORKDIR /app
 
 COPY . .
 
-# Install dependencies
-RUN pip install --no-cache-dir -r requirements.txt
-
-# 🔴 THIS IS THE CRITICAL LINE 🔴
-# Install the project so [project.scripts] is registered
-RUN pip install --no-cache-dir .
+# Install the project and dependencies from pyproject.toml
+# The -e flag ensures [project.scripts] entry points are registered
+RUN pip install --no-cache-dir -e .
 
 EXPOSE 7860
 

@@ -21,7 +21,4 @@ dependencies = [
 server = "api_debug_openenv.server.app:main"
 
 [tool.setuptools]
-packages = ["api_debug_openenv"]
-
-[tool.setuptools.entry-points.console_scripts]
-server = "api_debug_openenv.server.app:main"
+packages = ["api_debug_openenv", "api_debug_openenv.server"]
