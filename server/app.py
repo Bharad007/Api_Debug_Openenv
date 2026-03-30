@@ -1,23 +1,44 @@
-"""
-Root-level OpenEnv compatibility entrypoint.
-
-This file is required by the OpenEnv multi-mode validator.
-It delegates to the packaged implementation.
-"""
-
+from typing import Optional
 import uvicorn
-from api_debug_openenv.server.app import app as packed_app
-from api_debug_openenv.server.app import main as packed_main
+from fastapi import FastAPI
 
-# Expose the ASGI app
-app = packed_app
+from api_debug_openenv.environment import ApiDebugEnv
+from api_debug_openenv.models import ApiAction
+
+app = FastAPI()
+env = ApiDebugEnv()
+
+DEFAULT_TASK_ID = "easy_auth"
+
+
+@app.post("/reset")
+def reset(task_id: Optional[str] = None):
+    task = task_id or DEFAULT_TASK_ID
+    return env.reset(task)
+
+
+@app.post("/step")
+def step(action: ApiAction):
+    state, reward, done = env.step(action)
+    return {
+        "state": state,
+        "reward": reward,
+        "done": done,
+    }
+
+
+@app.get("/state")
+def state():
+    return env.state()
 
 
 def main():
-    """
-    Required OpenEnv CLI entrypoint.
-    """
-    packed_main()
+    uvicorn.run(
+        "server.app:app",
+        host="0.0.0.0",
+        port=7860,
+        reload=False,
+    )
 
 
 if __name__ == "__main__":
