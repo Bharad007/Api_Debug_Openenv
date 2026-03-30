@@ -9,9 +9,6 @@ description = "OpenEnv environment for debugging real-world API integration fail
 readme = "README.md"
 requires-python = ">=3.9"
 
-[project.scripts]
-openenv-server = "server.app:main"
-
 dependencies = [
   "fastapi",
   "uvicorn",
@@ -19,3 +16,6 @@ dependencies = [
   "openai",
   "openenv-core>=0.2.0"
 ]
+
+[project.scripts]
+openenv-server = "server.app:main"
