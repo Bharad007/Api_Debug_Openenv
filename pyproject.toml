@@ -17,9 +17,15 @@ dependencies = [
   "openenv-core>=0.2.0"
 ]
 
+
+# ✅ Modern PEP-621 entrypoint (what *should* work)
 [project.scripts]
 openenv-server = "api_debug_openenv.server.app:main"
 
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["api_debug_openenv*"]
+
+# ✅ Legacy setuptools fallback (what OpenEnv validator *actually* relies on)
+[tool.setuptools]
+packages = ["api_debug_openenv"]
+
+[tool.setuptools.entry-points.console_scripts]
+openenv-server = "api_debug_openenv.server.app:main"
