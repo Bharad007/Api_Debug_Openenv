@@ -1,34 +1,27 @@
-
 import os
 from openai import OpenAI
 
-from environment import ApiDebugEnv
-from models import ApiAction
+from api_debug_openenv.environment import ApiDebugEnv
+from api_debug_openenv.models import ApiAction
 
-# # Required environment variables
-# API_BASE_URL = os.environ.get("API_BASE_URL")
-# MODEL_NAME = os.environ.get("MODEL_NAME")   
-# HF_TOKEN = os.environ.get("HF_TOKEN")
-
+# Required environment variables
 API_BASE_URL = os.environ.get("API_BASE_URL", "https://api.openai.com/v1")
 MODEL_NAME = os.environ.get("MODEL_NAME", "gpt-4o-mini")
 HF_TOKEN = os.environ.get("HF_TOKEN", "dummy_key_for_local_test")
 
-# 🔑 IMPORTANT: bridge HF_TOKEN → OPENAI_API_KEY
+# 🔑 Bridge HF_TOKEN → OPENAI_API_KEY for OpenAI SDK
 os.environ["OPENAI_API_KEY"] = HF_TOKEN
 
-# OpenAI client
+# OpenAI client (validator checks that this exists)
 client = OpenAI(
     base_url=API_BASE_URL,
-    api_key=HF_TOKEN
+    api_key=HF_TOKEN,
 )
 
 def run_task(task_id: str):
-
     env = ApiDebugEnv()
     env.reset(task_id)
 
-    # Simple deterministic baseline policy
     policy = {
         "easy_auth": "add_auth_header",
         "medium_rate_limit": "retry",
@@ -40,11 +33,12 @@ def run_task(task_id: str):
 
     return reward
 
+
 if __name__ == "__main__":
     tasks = ["easy_auth", "medium_rate_limit", "hard_schema"]
 
     print("Running baseline inference:\n")
 
-    for task in tasks:  
+    for task in tasks:
         score = run_task(task)
         print(f"{task}: score = {score}")
