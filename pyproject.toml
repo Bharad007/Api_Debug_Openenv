@@ -18,4 +18,4 @@ dependencies = [
 ]
 
 [project.scripts]
-openenv-server = "server.app:main"
+openenv-server = "api_debug_openenv.server.app:main"

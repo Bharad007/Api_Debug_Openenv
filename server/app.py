@@ -1,9 +1,24 @@
 """
-Compatibility shim for OpenEnv validator.
+Root-level OpenEnv compatibility entrypoint.
 
-Delegates root-level server/app.py to the packaged implementation.
+This file is required by the OpenEnv multi-mode validator.
+It delegates to the packaged implementation.
 """
 
-from api_debug_openenv.server.app import app, main
+import uvicorn
+from api_debug_openenv.server.app import app as packed_app
+from api_debug_openenv.server.app import main as packed_main
 
-__all__ = ["app", "main"]
+# Expose the ASGI app
+app = packed_app
+
+
+def main():
+    """
+    Required OpenEnv CLI entrypoint.
+    """
+    packed_main()
+
+
+if __name__ == "__main__":
+    main()
