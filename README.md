@@ -1,3 +1,14 @@
+---
+title: API Debug OpenEnv
+emoji: 🧪
+colorFrom: blue
+colorTo: purple
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
+
 # API Debug OpenEnv
 
 API Debug OpenEnv is an OpenEnv-compatible environment that simulates common real-world API integration failures and evaluates how an agent fixes them through discrete debugging actions.
